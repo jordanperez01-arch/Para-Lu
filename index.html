@@ -12,9 +12,9 @@
         }
 
         body {
-            background-color: #0b0e14;
-            color: #00ffcc;
-            font-family: 'Courier New', Courier, monospace;
+            background: radial-gradient(circle at center, #1a0b2e 0%, #090314 100%);
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -23,23 +23,27 @@
             position: relative;
         }
 
-        .terminal {
+        /* Ventana estilo IDE Neón */
+        .window {
             width: 90%;
-            max-width: 650px;
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 12px;
-            box-shadow: 0 0 25px rgba(0, 255, 204, 0.15);
+            max-width: 680px;
+            background: rgba(23, 15, 38, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 77, 109, 0.3);
+            border-radius: 16px;
+            box-shadow: 0 0 35px rgba(255, 77, 109, 0.25);
             z-index: 10;
             overflow: hidden;
+            transition: all 0.5s ease;
         }
 
         .header {
-            background: #21262d;
-            padding: 12px;
+            background: rgba(35, 21, 56, 0.9);
+            padding: 14px 18px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .dot {
@@ -52,53 +56,98 @@
         .green { background: #27c93f; }
 
         .title {
-            color: #8b949e;
+            color: #a992cb;
             font-size: 13px;
+            font-family: monospace;
             margin-left: 10px;
         }
 
         .body {
-            padding: 20px;
-            min-height: 280px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
+            padding: 25px;
+            min-height: 320px;
+            font-family: 'Courier New', Courier, monospace;
             font-size: 15px;
-            line-height: 1.5;
+            line-height: 1.6;
+            color: #ff85a1;
         }
 
         .cursor {
             display: inline-block;
-            width: 9px;
+            width: 8px;
             height: 16px;
-            background: #00ffcc;
+            background: #ff4d6d;
             animation: blink 0.8s infinite;
         }
 
-        @keyframes blink {
-            50% { opacity: 0; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Tarjeta de propuesta final */
+        .proposal-card {
+            display: none;
+            text-align: center;
+            padding: 10px;
+            animation: fadeIn 1s ease forwards;
         }
 
-        .heart, .phrase {
+        .proposal-card h1 {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 26px;
+            color: #ff4d6d;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
+        }
+
+        .proposal-card p {
+            font-family: 'Segoe UI', sans-serif;
+            color: #e2d9f3;
+            font-size: 16px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .btns {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            min-height: 50px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #btnSi {
+            background: linear-gradient(45deg, #ff4d6d, #ff758f);
+            color: white;
+            box-shadow: 0 0 15px rgba(255, 77, 109, 0.6);
+        }
+
+        #btnSi:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(255, 77, 109, 0.9);
+        }
+
+        #btnNo {
+            background: rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             position: absolute;
-            top: -50px;
+        }
+
+        /* Lluvia de corazones y destellos */
+        .particle {
+            position: absolute;
+            top: -20px;
             user-select: none;
             pointer-events: none;
             animation: fall linear forwards;
-        }
-
-        .heart {
-            color: #ff4d6d;
-            font-size: 20px;
-            opacity: 0.8;
-        }
-
-        .phrase {
-            color: #ff85a1;
-            font-size: 14px;
-            font-family: 'Arial', sans-serif;
-            font-weight: bold;
-            text-shadow: 0 0 8px rgba(255, 77, 109, 0.6);
-            white-space: nowrap;
         }
 
         @keyframes fall {
@@ -106,90 +155,105 @@
                 transform: translateY(105vh) rotate(360deg);
             }
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
-<div class="terminal">
+<div class="window" id="window">
     <div class="header">
         <div class="dot red"></div>
         <div class="dot yellow"></div>
         <div class="dot green"></div>
-        <span class="title">luciana_love_script.cpp</span>
+        <span class="title">declaracion_para_luciana.cpp</span>
     </div>
-    <div class="body">
-        <span id="code"></span><span class="cursor"></span>
+    <div class="body" id="terminalBody">
+        <span id="code"></span><span class="cursor" id="cursor"></span>
+        
+        <div class="proposal-card" id="proposalCard">
+            <h1>Luciana... ❤️</h1>
+            <p>Desde que llegaste, mi mundo tiene más luz y colores bonitos.<br>No necesito un algoritmo para saber lo especial que eres para mí.<br><br><b>¿Te gustaría ser mi novia?</b></p>
+            <div class="btns">
+                <button id="btnSi" onclick="aceptar()">¡Sí, acepto! 💖</button>
+                <button id="btnNo" onmouseover="moverBotonNo()" onclick="moverBotonNo()">No</button>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
-const texto = `#include <iostream>
-#include <amor>
+const texto = `// Compilando sentimientos para Luciana...
+#include <iostream>
+#include <corazon>
 
 using namespace std;
 
 int main() {
-    string persona = "Luciana";
-    bool esEspecial = true;
+    string personaEspecial = "Luciana";
+    float nivelDeCariño = 1000.00;
     
-    if (esEspecial) {
-        cout << "Iniciando protocolo de cariño para: " << persona << endl;
-        cout << "Cargando abrazos... 100%" << endl;
-        cout << "Luciana, haces que cada día sea más bonito. ✨" << endl;
-    }
+    cout << "Analizando compatibilidad con " << personaEspecial << "..." << endl;
+    cout << "Resultado: 100% Perfecta para mí. ✨" << endl;
     
+    ejecutarPreguntaImportante();
     return 0;
-}
-
-// Ejecutando script... ❤️`;
+}`;
 
 let index = 0;
 function tipear() {
     if (index < texto.length) {
         document.getElementById("code").textContent += texto.charAt(index);
         index++;
-        setTimeout(tipear, 35);
+        setTimeout(tipear, 30);
     } else {
-        iniciarLluvia();
+        setTimeout(() => {
+            document.getElementById("code").style.display = "none";
+            document.getElementById("cursor").style.display = "none";
+            document.getElementById("proposalCard").style.display = "block";
+            iniciarParticulas();
+        }, 1000);
     }
 }
 
-const frases = [
-    "Luciana ❤️",
-    "Eres increíble ✨",
-    "Tu sonrisa ilumina todo 💖",
-    "La más especial 🌸",
-    "Luciana me haces feliz 😊",
-    "Única y brillante ⭐",
-    "Un abrazo enorme 🤗"
-];
-
-function crearCorazon() {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "❤️";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = Math.random() * 3 + 2 + "s";
-    heart.style.fontSize = Math.random() * 20 + 15 + "px";
-    document.body.appendChild(heart);
-
-    setTimeout(() => { heart.remove(); }, 5000);
+function moverBotonNo() {
+    const btnNo = document.getElementById("btnNo");
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 150 - 75;
+    btnNo.style.transform = `translate(${x}px, ${y}px)`;
 }
 
-function crearFrase() {
-    const phrase = document.createElement("div");
-    phrase.classList.add("phrase");
-    phrase.innerText = frases[Math.floor(Math.random() * frases.length)];
-    phrase.style.left = Math.random() * 80 + 10 + "vw";
-    phrase.style.animationDuration = Math.random() * 4 + 4 + "s";
-    document.body.appendChild(phrase);
-
-    setTimeout(() => { phrase.remove(); }, 8000);
+function aceptar() {
+    const card = document.getElementById("proposalCard");
+    card.innerHTML = `
+        <h1>¡Sabía que dirías que sí! 🥰✨</h1>
+        <p style="font-size: 18px; color: #ff85a1;">Prometo hacerte sonreír todos los días, Luciana. ❤️<br>¡Eres lo mejor de mi vida!</p>
+    `;
+    iniciarLluviaIntensa();
 }
 
-function iniciarLluvia() {
-    setInterval(crearCorazon, 200);
-    setInterval(crearFrase, 800);
+function crearParticula() {
+    const p = document.createElement("div");
+    p.classList.add("particle");
+    const opciones = ["❤️", "💖", "✨", "🌸", "💕"];
+    p.innerText = opciones[Math.floor(Math.random() * opciones.length)];
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.animationDuration = Math.random() * 3 + 2 + "s";
+    p.style.fontSize = Math.random() * 15 + 15 + "px";
+    document.body.appendChild(p);
+
+    setTimeout(() => { p.remove(); }, 5000);
+}
+
+function iniciarParticulas() {
+    setInterval(crearParticula, 300);
+}
+
+function iniciarLluviaIntensa() {
+    setInterval(crearParticula, 80);
 }
 
 tipear();
