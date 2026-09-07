@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Luciana ❤️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #2d0b3f 0%, #0d0414 100%);
+            color: #fff;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Tarjeta principal */
+        .card {
+            width: 90%;
+            max-width: 520px;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 182, 193, 0.25);
+            border-radius: 24px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .avatar {
+            font-size: 50px;
+            margin-bottom: 10px;
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.15); }
+        }
+
+        h1 {
+            color: #ff758f;
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 0 0 12px rgba(255, 117, 143, 0.4);
+        }
+
+        .text-container {
+            min-height: 110px;
+            font-size: 17px;
+            line-height: 1.6;
+            color: #f3e8ff;
+            margin-bottom: 25px;
+        }
+
+        /* Botones interactivos */
+        .btns {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            min-height: 50px;
+        }
+
+        button {
+            padding: 12px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #btnSi {
+            background: linear-gradient(45deg, #ff4d6d, #ff758f);
+            color: white;
+            box-shadow: 0 4px 20px rgba(255, 77, 109, 0.5);
+        }
+
+        #btnSi:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 25px rgba(255, 77, 109, 0.8);
+        }
+
+        #btnNo {
+            background: rgba(255, 255, 255, 0.12);
+            color: #e0d0f0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: absolute;
+        }
+
+        /* Lluvia de corazones */
+        .particle {
+            position: absolute;
+            top: -30px;
+            user-select: none;
+            pointer-events: none;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="avatar">💌</div>
+    <h1>Luciana...</h1>
+    <div class="text-container">
+        <span id="mensaje"></span>
+    </div>
+    <div class="btns" id="btnGroup" style="display: none;">
+        <button id="btnSi" onclick="aceptar()">¡Sí, me encantaría! 💖</button>
+        <button id="btnNo" onmouseover="moverBotonNo()" onclick="moverBotonNo()">No</button>
+    </div>
+</div>
+
+<script>
+const carta = "Desde que te conocí, haces que cada día sea más bonito e inolvidable. Eres una persona verdaderamente increíble y muy especial para mí...\n\n¿Te gustaría ser mi novia? ✨";
+
+let i = 0;
+function escribirMensaje() {
+    if (i < carta.length) {
+        let char = carta.charAt(i);
+        if (char === '\n') {
+            document.getElementById("mensaje").innerHTML += "<br>";
+        } else {
+            document.getElementById("mensaje").innerHTML += char;
+        }
+        i++;
+        setTimeout(escribirMensaje, 40);
+    } else {
+        document.getElementById("btnGroup").style.display = "flex";
+        iniciarParticulas();
+    }
+}
+
+function moverBotonNo() {
+    const btnNo = document.getElementById("btnNo");
+    const x = Math.random() * 220 - 110;
+    const y = Math.random() * 120 - 60;
+    btnNo.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+function aceptar() {
+    document.querySelector(".card").innerHTML = `
+        <div class="avatar">🥰✨</div>
+        <h1>¡Prometo hacerte muy feliz! ❤️</h1>
+        <p style="font-size: 18px; color: #f3e8ff; line-height: 1.6;">
+            Gracias por estar en mi vida, Luciana.<br>¡Eres lo mejor que me ha pasado!
+        </p>
+    `;
+    iniciarLluviaIntensa();
+}
+
+function crearParticula() {
+    const p = document.createElement("div");
+    p.classList.add("particle");
+    const opciones = ["❤️", "💖", "✨", "🌸", "💕", "⭐"];
+    p.innerText = opciones[Math.floor(Math.random() * opciones.length)];
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.animationDuration = Math.random() * 3 + 2.5 + "s";
+    p.style.fontSize = Math.random() * 16 + 14 + "px";
+    document.body.appendChild(p);
+
+    setTimeout(() => { p.remove(); }, 5500);
+}
+
+function iniciarParticulas() {
+    setInterval(crearParticula, 300);
+}
+
+function iniciarLluviaIntensa() {
+    setInterval(crearParticula, 80);
+}
+
+escribirMensaje();
+</script>
+
+</body>
+</html>
