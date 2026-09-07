@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Luciana ❤️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #0b0e14;
+            color: #00ffcc;
+            font-family: 'Courier New', Courier, monospace;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .terminal {
+            width: 90%;
+            max-width: 650px;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.15);
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .header {
+            background: #21262d;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .red { background: #ff5f56; }
+        .yellow { background: #ffbd2e; }
+        .green { background: #27c93f; }
+
+        .title {
+            color: #8b949e;
+            font-size: 13px;
+            margin-left: 10px;
+        }
+
+        .body {
+            padding: 20px;
+            min-height: 280px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 9px;
+            height: 16px;
+            background: #00ffcc;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .heart, .phrase {
+            position: absolute;
+            top: -50px;
+            user-select: none;
+            pointer-events: none;
+            animation: fall linear forwards;
+        }
+
+        .heart {
+            color: #ff4d6d;
+            font-size: 20px;
+            opacity: 0.8;
+        }
+
+        .phrase {
+            color: #ff85a1;
+            font-size: 14px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(255, 77, 109, 0.6);
+            white-space: nowrap;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="terminal">
+    <div class="header">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
+        <span class="title">luciana_love_script.cpp</span>
+    </div>
+    <div class="body">
+        <span id="code"></span><span class="cursor"></span>
+    </div>
+</div>
+
+<script>
+const texto = `#include <iostream>
+#include <amor>
+
+using namespace std;
+
+int main() {
+    string persona = "Luciana";
+    bool esEspecial = true;
+    
+    if (esEspecial) {
+        cout << "Iniciando protocolo de cariño para: " << persona << endl;
+        cout << "Cargando abrazos... 100%" << endl;
+        cout << "Luciana, haces que cada día sea más bonito. ✨" << endl;
+    }
+    
+    return 0;
+}
+
+// Ejecutando script... ❤️`;
+
+let index = 0;
+function tipear() {
+    if (index < texto.length) {
+        document.getElementById("code").textContent += texto.charAt(index);
+        index++;
+        setTimeout(tipear, 35);
+    } else {
+        iniciarLluvia();
+    }
+}
+
+const frases = [
+    "Luciana ❤️",
+    "Eres increíble ✨",
+    "Tu sonrisa ilumina todo 💖",
+    "La más especial 🌸",
+    "Luciana me haces feliz 😊",
+    "Única y brillante ⭐",
+    "Un abrazo enorme 🤗"
+];
+
+function crearCorazon() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+    heart.style.fontSize = Math.random() * 20 + 15 + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => { heart.remove(); }, 5000);
+}
+
+function crearFrase() {
+    const phrase = document.createElement("div");
+    phrase.classList.add("phrase");
+    phrase.innerText = frases[Math.floor(Math.random() * frases.length)];
+    phrase.style.left = Math.random() * 80 + 10 + "vw";
+    phrase.style.animationDuration = Math.random() * 4 + 4 + "s";
+    document.body.appendChild(phrase);
+
+    setTimeout(() => { phrase.remove(); }, 8000);
+}
+
+function iniciarLluvia() {
+    setInterval(crearCorazon, 200);
+    setInterval(crearFrase, 800);
+}
+
+tipear();
+</script>
+
+</body>
+</html>
